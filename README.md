@@ -11,3 +11,5 @@ La Plataforma **DrawingU**, es un aplicativo en tiempo real donde se usara para 
 ### **Historias de usuario**
 
 [Historias_De_Usuario](https://tree.taiga.io/project/jandres1420-drawingu/timeline)
+### Canva
+[Presentación](https://www.canva.com/design/DAFDj5uGX70/jcFK2QuD5rNts7DY68ieaw/edit#)
