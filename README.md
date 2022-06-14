@@ -5,7 +5,7 @@ La Plataforma **DrawingU**, es un aplicativo en tiempo real donde se usara para 
 
 |     Nombre    |     Rol         | GitHub       |
 |--------------|------------- |------------- |
-|Daniel Benavidez	|Product Owner    |
+|Daniel Benavides	|Product Owner    |
 |Juan Andrés Pico| Scrum Master| [Jandres1420](https://github.com/Jandres1420)  |
 ### Presentación 
 ### **Historias de usuario**
