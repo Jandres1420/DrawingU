@@ -31,7 +31,7 @@ class BBCanvas extends React.Component {
     this.comunicationWS =new WSBBChannel(BBServiceURL(),(msg) =>{
  			var obj = JSON.parse(msg);
  			console.log("On func call back ", msg);
- 			this.drawPoint(obj.x, obj.y,obj.color);
+ 			this.drawPoint(obj.x, obj.y);
  	});
     this.myp5 = null;
     this.state = { loadingState: "Loading Canvas ..." };
@@ -112,8 +112,8 @@ class WSBBChannel {
         console.error("In onError", evt);
     }
     // Enviar puntos
-    send(x, y,color) {
-        let msg = '{ "x": ' + (x) + ', "y": ' + (y) + ', color: ' + color  + "}";
+    send(x, y) {
+        let msg = '{ "x": ' + (x) + ', "y": ' + (y) +"}";
         console.log("sending: ", msg);
         //enviar puntos por socket
         this.wsocket.send(msg);
