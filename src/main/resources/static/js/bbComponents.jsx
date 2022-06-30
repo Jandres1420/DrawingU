@@ -1,16 +1,18 @@
-
+var flag;
+var color;
 class Editor extends React.Component {
   render() {
     return (
       <div>
         <h1>Hello, {this.props.name}</h1>
-        <button type="button" class="btn btn-primary btn-circle btn-xl" >Blue</button>
-        <button type="button" class="btn btn-secondary btn-circle btn-xl">Gray</button>
-        <button type="button" class="btn btn-success btn-circle btn-xl">Green</button>
-        <button type="button" class="btn btn-danger btn-circle btn-xl">Red</button>
-        <button type="button" class="btn btn-warning btn-circle btn-xl">Yellow</button>
-        <button type="button" class="btn btn-light btn-circle btn-xl">White</button>
-        <button type="button" class="btn btn-dark btn-circle btn-xl">Black</button>
+        <button type="button" class="btn btn-primary btn-circle btn-xl" onClick={function(){color = "blue"}} >Blue</button>
+        <button type="button" class="btn btn-secondary btn-circle btn-xl" onClick={function(){color = "darkgray"}}>Gray</button>
+        <button type="button" class="btn btn-success btn-circle btn-xl" onClick={function(){color = "lawngreen"}}>Green</button>
+        <button type="button" class="btn btn-danger btn-circle btn-xl" onClick={function(){color = "red"}}>Red</button>
+        <button type="button" class="btn btn-warning btn-circle btn-xl" onClick={function(){color = "yellow"}}>Yellow</button>
+        <button type="button" class="btn btn-light btn-circle btn-xl" onClick={function(){color = "snow"}}>White</button>
+        <button type="button" class="btn btn-dark btn-circle btn-xl" onClick={function(){color = "black"}}>Black</button>
+        <button type="button" class="btn btn-dark" onClick={function(){flag = true}} >Borrar Tablero</button>
         <hr />
         <div id="toolstatus"></div>
         <hr />
@@ -29,7 +31,7 @@ class BBCanvas extends React.Component {
     this.comunicationWS =new WSBBChannel(BBServiceURL(),(msg) =>{
  			var obj = JSON.parse(msg);
  			console.log("On func call back ", msg);
- 			this.drawPoint(obj.x, obj.y);
+ 			this.drawPoint(obj.x, obj.y,obj.color);
  	});
     this.myp5 = null;
     this.state = { loadingState: "Loading Canvas ..." };
@@ -43,7 +45,7 @@ class BBCanvas extends React.Component {
       };
       p.draw = function () {
         if (p.mouseIsPressed === true) {
-          let color = 'magenta'
+          
           p.fill(color);
           
           p.ellipse(p.mouseX, p.mouseY, 10, 10);
@@ -51,6 +53,10 @@ class BBCanvas extends React.Component {
         }
         if (p.mouseIsPressed === false) {
           p.fill(255, 255, 255);
+        }
+        if(flag){
+          p.clear();
+          flag = false;
         }
       };
     };
@@ -62,6 +68,8 @@ class BBCanvas extends React.Component {
   componentDidMount() {
     this.myp5 = new p5(this.sketch, "container");
     this.setState({ loadingState: "Canvas Loaded" });
+    color = 'black'
+    flag = false;
   }
   render() {
     return (
@@ -104,8 +112,8 @@ class WSBBChannel {
         console.error("In onError", evt);
     }
     // Enviar puntos
-    send(x, y) {
-        let msg = '{ "x": ' + (x) + ', "y": ' + (y) + "}";
+    send(x, y,color) {
+        let msg = '{ "x": ' + (x) + ', "y": ' + (y) + ', color: ' + color  + "}";
         console.log("sending: ", msg);
         //enviar puntos por socket
         this.wsocket.send(msg);
