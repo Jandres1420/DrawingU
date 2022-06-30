@@ -14,8 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ServerEndpoint("/bbService")
 public class BBEndpoint {
-    private static final Logger logger =
-            Logger.getLogger(BBEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(BBEndpoint.class.getName());
     /* Queue for all open WebSocket sessions */
     static Queue<Session> queue = new ConcurrentLinkedQueue<>();
     Session ownSession = null;

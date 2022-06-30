@@ -36,4 +36,16 @@ public class DrawingServiceController {
         System.out.println("ENTRE ENTRE ENTRE");
         System.out.println("ENTRE ENTRE ENTRE");
     }
+
+    @GetMapping("/getWord")
+    public String getWord() {
+        sessionManagement();
+        String name = (String) request.getSession().getAttribute("name");
+        return "{\"getWord\":\"Greetings from Spring Boot "
+                + Board.getInstance().getWords().getRandomWord() + ", "
+                + java.time.LocalDate.now() + ", "
+                + java.time.LocalTime.now()
+                + ". " + "The server is Runnig!\"}";
+
+    }
 }

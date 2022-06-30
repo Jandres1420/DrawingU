@@ -119,5 +119,55 @@ class WSBBChannel {
         this.wsocket.send(msg);
     }
 }   
+class StatusComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      status: "",
+    };
+  }
+  componentDidMount() {
+    this.timerID = setInterval(() => this.checkStatus(), 5000);
+  }
+  checkStatus() {
+    fetch("/getWord")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            status: result.status,
+          });
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error,
+          });
+          ReactDOM.render(<StatusComponent />, document.getElementById("set"));
+        }
+      );
+  }
+  render() {
+    const { error, isLoaded, status } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div>
+          <h1>The server status is:</h1>
+          <p>{status}</p>
+        </div>
+      );
+    }
+  }
+}
 
-ReactDOM.render(<Editor name="Andrés" />, document.getElementById("root"));
+ReactDOM.render(<Editor name="??" />, document.getElementById("root"));

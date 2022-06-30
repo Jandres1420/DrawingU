@@ -11,7 +11,7 @@ class StatusComponent extends React.Component {
     this.timerID = setInterval(() => this.checkStatus(), 5000);
   }
   checkStatus() {
-    fetch("/gettingName")
+    fetch("/getWord")
       .then((res) => res.json())
       .then(
         (result) => {
