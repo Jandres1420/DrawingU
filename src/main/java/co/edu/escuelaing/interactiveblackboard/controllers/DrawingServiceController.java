@@ -28,8 +28,8 @@ public class DrawingServiceController {
         System.out.println(request.getSession(true).getId());
     }
 
-    @GetMapping("/index")
-    public void getName(@RequestParam(value = "name", defaultValue = "Anónimo") String name) {
+    @PostMapping("/index")
+    public void getName(@RequestParam(value = "name") String name) {
         System.out.println("name + " + name);
         Board.getInstance().setUsuario(new User(name));
         System.out.println("ENTRE ENTRE ENTRE");

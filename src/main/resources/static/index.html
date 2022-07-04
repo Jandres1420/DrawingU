@@ -19,9 +19,18 @@
         <input type="text" id = "name" name = "name" placeholder="Enter Username">
         <!-- PASSWORD INPUT -->
         <a  type="button"  class="fcc-btn" onclick="getname();" href="/login.html" > submit</a>
-        <script >function getname(){localStorage.setItem("user",document.getElementById("name").value)}</script>
-       <!-- <a target="_blank" class="fcc-btn" href="/login.html" onclick=loadGetMsg(name)>Log in</a>-->
-        <div id="getrespmsg" ></div>
+       
+        <script >function getname(){
+          name = document.getElementById("name").value;
+          localStorage.setItem("user",name);          
+          let file = "/index?name=" + name.value
+          
+          fetch (file,{method:'POST'})
+              .then(x => x.text())
+              .then(y => document.getElementById("postrespmsg").innerHTML = y)
+
+          }</script>
+        <div id "postrespmsg"></div>
       </form>
     </div>
   </body>
