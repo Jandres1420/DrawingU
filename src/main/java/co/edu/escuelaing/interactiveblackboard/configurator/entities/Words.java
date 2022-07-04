@@ -12,8 +12,8 @@ public class Words {
         randomWords = new ArrayList<>();
         alreadyUsedWords = new ArrayList<String>();
         generateWords();
-    }
-
+    }  
+   
     public String getRandomWord(){
         Random random = new Random();
         String word = "";

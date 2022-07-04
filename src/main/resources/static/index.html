@@ -9,18 +9,18 @@
     <script src="js/geti.js"></script>
 </head>
 
-<body>
-
+  <body>
     <div class="login-box">
       <img src="https://mymodernmet.com/wp/wp-content/uploads/2018/09/how-to-draw-hands-1.jpg" class="avatar" alt="Avatar Image">
       <h1>Login Here</h1>
       <form action = "/index">
         <!-- USERNAME INPUT -->
         <label for="username">Username</label>
-        <input type="text" id = "name " name = "name" placeholder="Enter Username">
+        <input type="text" id = "name" name = "name" placeholder="Enter Username">
         <!-- PASSWORD INPUT -->
-        <input type="button" value="Submit" onclick="loadGetMsg()">
-        <a target="_blank" class="fcc-btn" href="https://safe-crag-82536.herokuapp.com/logIn.html" onclick=loadGetMsg()>Log in</a>
+        <a  type="button"  class="fcc-btn" onclick="getname();" href="/login.html" > submit</a>
+        <script >function getname(){localStorage.setItem("user",document.getElementById("name").value)}</script>
+       <!-- <a target="_blank" class="fcc-btn" href="/login.html" onclick=loadGetMsg(name)>Log in</a>-->
         <div id="getrespmsg" ></div>
       </form>
     </div>

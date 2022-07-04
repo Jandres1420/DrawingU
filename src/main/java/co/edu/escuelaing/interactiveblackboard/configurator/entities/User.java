@@ -2,6 +2,7 @@ package co.edu.escuelaing.interactiveblackboard.configurator.entities;
 
 public class User {
     private String name;
+    private boolean pintor;
     public User(String name){
         this.name = name;
     }
