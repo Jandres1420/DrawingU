@@ -23,4 +23,16 @@ public class User {
         this.name = name;
     }
 
+    public boolean isPintor() {
+        return this.pintor;
+    }
+
+    public boolean getPintor() {
+        return this.pintor;
+    }
+
+    public void setPintor(boolean pintor) {
+        this.pintor = pintor;
+    }
+
 }

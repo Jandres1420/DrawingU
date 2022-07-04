@@ -18,19 +18,22 @@
         <label for="username">Username</label>
         <input type="text" id = "name" name = "name" placeholder="Enter Username">
         <!-- PASSWORD INPUT -->
-        <a  type="button"  class="fcc-btn" onclick="getname();" href="/login.html" > submit</a>
-       
+        <a href=""></a>
+        <a  type="button"  class="fcc-btn" href="/login.html" onclick="getname();" > submit</a>
+        <div id "postrespmsg"></div>
         <script >function getname(){
+          console.log('Estan oprimiendo el boton');
+          console.log(name);
           name = document.getElementById("name").value;
           localStorage.setItem("user",name);          
-          let file = "/index?name=" + name.value
-          
+          let file = "/index?name=" +"'"+name+"'"; 
+          console.log("file " + file);
           fetch (file,{method:'POST'})
               .then(x => x.text())
-              .then(y => document.getElementById("postrespmsg").innerHTML = y)
+              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
 
           }</script>
-        <div id "postrespmsg"></div>
+       
       </form>
     </div>
   </body>
