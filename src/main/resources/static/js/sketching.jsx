@@ -178,7 +178,7 @@ function BBServiceURL() {
   var host = window.location.host;
   var url = "wss://" + host + "/bbService";
   console.log("URL Calculada: " + url);
-  return url;
+  return "ws://localhost:8080/bbService";
 }
 
 class WSBBChannel {
