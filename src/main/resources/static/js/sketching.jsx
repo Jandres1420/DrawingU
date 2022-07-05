@@ -178,7 +178,7 @@ function BBServiceURL() {
   var host = window.location.host;
   var url = "wss://" + host + "/bbService";
   console.log("URL Calculada: " + url);
-  return "ws://localhost:8080/bbService";
+  return url;
 }
 
 class WSBBChannel {
@@ -213,44 +213,6 @@ class WSBBChannel {
     console.log("color ", color);
     //enviar puntos por socket
     this.wsocket.send(msg);
-  }
-}
-class StatusComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      status: "",
-    };
-  }
-  componentDidMount() {
-    this.timerID = setInterval(() => this.checkStatus(), 5000);
-  }
-  checkStatus() {
-    console.log("Estan oprimiendo el boton");
-    var getWord = document.getElementById("name").value;
-    localStorage.setItem("user", name);
-    let file = "/getWord";
-    console.log("file " + file);
-    fetch(file, { method: "GET" })
-      .then((x) => x.text())
-      .then((y) => (document.getElementById("postwords").innerHTML = y));
-  }
-  render() {
-    const { error, isLoaded, status } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <div>
-          <h1>The server status is:</h1>
-          <p>{status}</p>
-        </div>
-      );
-    }
   }
 }
 
