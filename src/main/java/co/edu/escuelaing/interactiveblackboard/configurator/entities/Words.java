@@ -7,22 +7,21 @@ import java.util.Random;
 public class Words {
 
     public List<String> randomWords;
-    public List<String> alreadyUsedWords;
     public Words(){
         randomWords = new ArrayList<>();
-        alreadyUsedWords = new ArrayList<String>();
         generateWords();
     }  
    
     public String getRandomWord(){
+        if(randomWords.size() == 0){
+            generateWords();
+        }
         Random random = new Random();
         String word = "";
         int numeroRandom = random.nextInt(randomWords.size());
-        while(!(alreadyUsedWords.contains(randomWords.get(numeroRandom)))) {
-            alreadyUsedWords.add(randomWords.get(numeroRandom));
-            numeroRandom = random.nextInt(randomWords.size());
-            word = randomWords.get(numeroRandom);
-        }
+        word = randomWords.get(numeroRandom);
+        int pos = randomWords.indexOf(word);
+        randomWords.remove(pos);
         return word;
     }
 

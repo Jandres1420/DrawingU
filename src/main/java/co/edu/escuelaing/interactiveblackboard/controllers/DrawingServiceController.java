@@ -32,20 +32,22 @@ public class DrawingServiceController {
     public void getName(@RequestParam(value = "name") String name) {
         System.out.println("name + " + name);
         Board.getInstance().setUsuario(new User(name));
-        System.out.println("ENTRE ENTRE ENTRE");
-        System.out.println("ENTRE ENTRE ENTRE");
-        System.out.println("ENTRE ENTRE ENTRE");
     }
 
     @GetMapping("/getWord")
     public String getWord() {
         sessionManagement();
         String name = (String) request.getSession().getAttribute("name");
-        return "{\"getWord\":\"Greetings from Spring Boot "
-                + Board.getInstance().getWords().getRandomWord() + ", "
-                + java.time.LocalDate.now() + ", "
-                + java.time.LocalTime.now()
-                + ". " + "The server is Runnig!\"}";
+        return "{\"getWord\":\""
+                + Board.getInstance().getWords().getRandomWord() +"\"}";
 
+    }
+
+    @GetMapping("/game")
+    public String getStatus(@RequestParam (value = "pintor") String pintor ) {
+        sessionManagement();
+        int posicion = Board.getInstance().getPositionUser(pintor);
+        User user = Board.getInstance().getUsuarios().get(posicion);
+        return ("El usuario " + user.getName() + " es un " +  user.getPintor());
     }
 }

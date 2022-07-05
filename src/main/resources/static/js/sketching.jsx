@@ -1,10 +1,12 @@
 var flag;
 var color;
+var user;
 class Editor extends React.Component {
-  render() {  
+  render() {
     return (
       <div>
         <h1>Hello, {this.props.name}</h1>
+        <script> function(){(user = this.props.name)}</script>
         <button
           type="button"
           class="btn btn-primary btn-circle btn-xl"
@@ -78,6 +80,13 @@ class Editor extends React.Component {
           Borrar Tablero
         </button>
         <hr />
+        <h2> Palabra a dibujar : </h2>
+        <div id="postwords"></div>
+        <div id="pintor">
+          <h3> Buenas aca va a estar si eres pintor </h3>
+          <script id="estado"></script>
+        </div>
+        <hr />
         <div id="toolstatus"></div>
         <hr />
         <div id="container"></div>
@@ -95,7 +104,7 @@ class BBCanvas extends React.Component {
     this.comunicationWS = new WSBBChannel(BBServiceURL(), (msg) => {
       var obj = JSON.parse(msg);
       console.log("On func call back ", msg);
-      this.drawPoint(obj.x, obj.y,obj.color);
+      this.drawPoint(obj.x, obj.y, obj.color);
     });
     this.myp5 = null;
     this.state = { loadingState: "Loading Canvas ..." };
@@ -111,7 +120,7 @@ class BBCanvas extends React.Component {
         if (p.mouseIsPressed === true) {
           p.fill(color);
           p.ellipse(p.mouseX, p.mouseY, 10, 10);
-          wsreference.send(p.mouseX, p.mouseY,color);
+          wsreference.send(p.mouseX, p.mouseY, color);
         }
         if (p.mouseIsPressed === false) {
           p.fill(255, 255, 255);
@@ -123,7 +132,7 @@ class BBCanvas extends React.Component {
       };
     };
   }
-  drawPoint(x, y,color) {
+  drawPoint(x, y, color) {
     this.myp5.fill(color);
     this.myp5.ellipse(x, y, 10, 10);
   }
@@ -133,6 +142,28 @@ class BBCanvas extends React.Component {
     this.setState({ loadingState: "Canvas Loaded" });
     color = "black";
     flag = false;
+    console.log(" Este es el nombre por local " + user);
+    this.timerID = setInterval(() => this.checkWord(), 25000);
+    this.getStatus(user);
+  }
+  checkWord() {
+    console.log("Estan oprimiendo el boton");
+    let file = "/getWord";
+    console.log("file " + file);
+    fetch(file, { method: "GET" })
+      .then((x) => x.json())
+      .then(
+        (y) => (document.getElementById("postwords").innerHTML = y.getWord)
+      );
+  }
+
+  getStatus(user) {
+    console.log("ENTRO AL ESTDO");
+    let file = "/game?pintor=" + "'" + user + "'";
+    console.log("file " + file);
+    fetch(file, { method: "GET" })
+      .then((x) => x.text())
+      .then((y) => (document.getElementById("estado").innerHTML = y));
   }
   render() {
     return (
@@ -197,26 +228,14 @@ class StatusComponent extends React.Component {
     this.timerID = setInterval(() => this.checkStatus(), 5000);
   }
   checkStatus() {
-    fetch("/getWord")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            status: result.status,
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-          ReactDOM.render(<StatusComponent />, document.getElementById("set"));
-        }
-      );
+    console.log("Estan oprimiendo el boton");
+    var getWord = document.getElementById("name").value;
+    localStorage.setItem("user", name);
+    let file = "/getWord";
+    console.log("file " + file);
+    fetch(file, { method: "GET" })
+      .then((x) => x.text())
+      .then((y) => (document.getElementById("postwords").innerHTML = y));
   }
   render() {
     const { error, isLoaded, status } = this.state;
@@ -235,4 +254,7 @@ class StatusComponent extends React.Component {
   }
 }
 
-ReactDOM.render(<Editor name={localStorage.getItem("user")} />, document.getElementById("root"));
+ReactDOM.render(
+  <Editor name={localStorage.getItem("user")} />,
+  document.getElementById("root")
+);

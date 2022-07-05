@@ -23,11 +23,30 @@ public class Board {
     }
     public void setUsuario( User user) {
         if(!(users.contains(user))){
-            users.add(user);
+            if(users.size() == 0){
+                System.out.println("Es pintor");
+                users.add(user);
+                users.forEach(x -> x.setPintor(true));
+            }else{
+                System.out.println(" NOOO Es pintor");
+                users.add(user);
+                int pos = users.indexOf(user);
+                users.get(pos).setPintor(false);
+            }
             System.out.println("Usuario agregado: " + user.getName());
         }
+        
     }
 
+    public int getPositionUser(String user){
+        int pos = 0;
+        for(int i = 0 ; i<users.size();i++){
+            if(users.get(i).getName() == user){
+                pos = i;
+            }
+        }
+        return pos;
+    }
 
     public List<Color> getColores() {
         return colors;
