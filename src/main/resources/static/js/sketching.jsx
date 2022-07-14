@@ -220,7 +220,7 @@ class WSBBChannel {
   // Enviar puntos
   send(x, y, color,erase) {
     let msg =
-      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '"' ', "erase": "' + erase + '"' + "}";
+      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '"'+ "}";
     console.log("sending: ", msg);
     console.log("color ", color);
     //enviar puntos por socket
