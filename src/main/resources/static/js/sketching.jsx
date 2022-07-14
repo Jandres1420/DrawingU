@@ -1,6 +1,7 @@
 var flag;
 var color;
 var user;
+var erase;
 class Editor extends React.Component {
   render() {
     return (
@@ -120,21 +121,27 @@ class BBCanvas extends React.Component {
         if (p.mouseIsPressed === true) {
           p.fill(color);
           p.ellipse(p.mouseX, p.mouseY, 10, 10);
-          wsreference.send(p.mouseX, p.mouseY, color);
+          wsreference.send(p.mouseX, p.mouseY, color,erase);
         }
         if (p.mouseIsPressed === false) {
           p.fill(255, 255, 255);
         }
         if (flag) {
           p.clear();
+          erase = true;
+          wsreference.send(p.mouseX, p.mouseY, color, erase);
           flag = false;
         }
       };
     };
   }
-  drawPoint(x, y, color) {
+  drawPoint(x, y, color,erase) {
     this.myp5.fill(color);
     this.myp5.ellipse(x, y, 10, 10);
+    if(erase){
+      this.myp5.clear();
+      erase = false;
+    }
   }
 
   componentDidMount() {
@@ -142,6 +149,7 @@ class BBCanvas extends React.Component {
     this.setState({ loadingState: "Canvas Loaded" });
     color = "black";
     flag = false;
+    erase = false;
     console.log(" Este es el nombre por local " + user);
     this.timerID = setInterval(() => this.checkWord(), 25000);
     this.getStatus(user);
@@ -177,8 +185,11 @@ class BBCanvas extends React.Component {
 function BBServiceURL() {
   var host = window.location.host;
   var url = "wss://" + host + "/bbService";
+  if (host.startsWith("localhost")) {
+    url = "ws://localhost:8080/bbService";
+  }
   console.log("URL Calculada: " + url);
-  return "ws://localhost:8080/bbService";
+  return url;
 }
 
 class WSBBChannel {

@@ -25,7 +25,7 @@ public class BBEndpoint {
             for (Session session : queue) {
                 if (!session.equals(this.ownSession)) {
                     session.getBasicRemote().sendText(msg);
-                    System.out.println("no entiendo que monda esto");
+                  //  System.out.println("no entiendo que monda esto");
                 }
                 logger.log(Level.INFO, "Sent: {0}", msg);
             }
