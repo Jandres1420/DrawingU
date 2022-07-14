@@ -1,4 +1,4 @@
-package co.edu.escuelaing.interactiveblackboard.configurator.entities;
+package co.edu.escuelaing.interactiveblackboard.entities;
 
 public class User {
     private String name;

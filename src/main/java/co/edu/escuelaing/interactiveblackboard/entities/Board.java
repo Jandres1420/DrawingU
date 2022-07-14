@@ -1,4 +1,4 @@
-package co.edu.escuelaing.interactiveblackboard.configurator.entities;
+package co.edu.escuelaing.interactiveblackboard.entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +7,7 @@ import java.util.List;
 public class Board {
     private List<User> users;
     private List<Color> colors;
+    private List<Rooms> rooms;
     private Words words;
     private static  Board _instance = new Board();
     public static Board getInstance(){

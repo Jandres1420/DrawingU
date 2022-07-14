@@ -2,12 +2,13 @@ package co.edu.escuelaing.interactiveblackboard.controllers;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import co.edu.escuelaing.interactiveblackboard.configurator.entities.Board;
-import co.edu.escuelaing.interactiveblackboard.configurator.entities.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import co.edu.escuelaing.interactiveblackboard.entities.Board;
+import co.edu.escuelaing.interactiveblackboard.entities.User;
 @RestController
 public class DrawingServiceController {
     @Resource

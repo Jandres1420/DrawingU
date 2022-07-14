@@ -105,7 +105,7 @@ class BBCanvas extends React.Component {
     this.comunicationWS = new WSBBChannel(BBServiceURL(), (msg) => {
       var obj = JSON.parse(msg);
       console.log("On func call back ", msg);
-      this.drawPoint(obj.x, obj.y, obj.color);
+      this.drawPoint(obj.x, obj.y, obj.color,obj.erase);
     });
     this.myp5 = null;
     this.state = { loadingState: "Loading Canvas ..." };
@@ -138,6 +138,7 @@ class BBCanvas extends React.Component {
   drawPoint(x, y, color,erase) {
     this.myp5.fill(color);
     this.myp5.ellipse(x, y, 10, 10);
+    console.log("El booleano es : "+erase);
     if(erase){
       this.myp5.clear();
       erase = false;
@@ -217,9 +218,9 @@ class WSBBChannel {
     console.error("In onError", evt);
   }
   // Enviar puntos
-  send(x, y, color) {
+  send(x, y, color,erase) {
     let msg =
-      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '"' + "}";
+      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '"' ', "erase": "' + erase + '"' + "}";
     console.log("sending: ", msg);
     console.log("color ", color);
     //enviar puntos por socket
