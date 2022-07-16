@@ -1,255 +1,131 @@
-//import React, { useEffect, useState } from "react";
-import { over } from "stompjs";
-import SockJS from "sockjs-client";
+"use strict";
+var usernamePage = document.querySelector("#username-page");
+var chatPage = document.querySelector("#chat-page");
+var usernameForm = document.querySelector("#usernameForm");
+var messageForm = document.querySelector("#messageForm");
+var messageInput = document.querySelector("#message");
+var messageArea = document.querySelector("#messageArea");
+var connectingElement = document.querySelector(".connecting");
 
 var stompClient = null;
-class  ChatRoom extends React.Component {
-  render(){
-    const [privateChats, setPrivateChats] = useState(new Map());
-    const [publicChats, setPublicChats] = useState([]);
-    const [tab, setTab] = useState("CHATROOM");
-    const [userData, setUserData] = useState({
-      username: "",
-      receivername: "",
-      connected: false,
-      message: "",
-    });
-    useEffect(() => {
-      console.log(userData);
-    }, [userData]);
+var username = null;
 
-    const connect = () => {
-      let Sock = new SockJS("http://localhost:8080/ws");
-      stompClient = over(Sock);
-      stompClient.connect({}, onConnected, onError);
-    };
+var colors = [
+  "#2196F3",
+  "#32c787",
+  "#00BCD4",
+  "#ff5652",
+  "#ffc107",
+  "#ff85af",
+  "#FF9800",
+  "#39bbb0",
+];
 
-    const onConnected = () => {
-      setUserData({ ...userData, connected: true });
-      stompClient.subscribe("/chatroom/public", onMessageReceived);
-      stompClient.subscribe(
-        "/user/" + userData.username + "/private",
-        onPrivateMessage
+class ChatRoom extends React.Component {
+  render() {
+    function connect(event) {
+      username = document.querySelector("#name").value.trim();
+
+      if (username) {
+        usernamePage.classList.add("hidden");
+        chatPage.classList.remove("hidden");
+
+        var socket = new SockJS("/ws");
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, onConnected, onError);
+      }
+      event.preventDefault();
+    }
+
+    function onConnected() {
+      // Subscribe to the Public Topic
+      stompClient.subscribe("/topic/public", onMessageReceived);
+
+      // Tell your username to the server
+      stompClient.send(
+        "/app/chat.register",
+        {},
+        JSON.stringify({ sender: username, type: "JOIN" })
       );
-      userJoin();
-    };
 
-    const userJoin = () => {
-      var chatMessage = {
-        senderName: userData.username,
-        status: "JOIN",
-      };
-      stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-    };
+      connectingElement.classList.add("hidden");
+    }
 
-    const onMessageReceived = (payload) => {
-      var payloadData = JSON.parse(payload.body);
-      switch (payloadData.status) {
-        case "JOIN":
-          if (!privateChats.get(payloadData.senderName)) {
-            privateChats.set(payloadData.senderName, []);
-            setPrivateChats(new Map(privateChats));
-          }
-          break;
-        case "MESSAGE":
-          publicChats.push(payloadData);
-          setPublicChats([...publicChats]);
-          break;
+    function onError(error) {
+      connectingElement.textContent =
+        "Could not connect to WebSocket server. Please refresh this page to try again!";
+      connectingElement.style.color = "red";
+    }
+
+    function send(event) {
+      var messageContent = messageInput.value.trim();
+
+      if (messageContent && stompClient) {
+        var chatMessage = {
+          sender: username,
+          content: messageInput.value,
+          type: "CHAT",
+        };
+
+        stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+        messageInput.value = "";
       }
-    };
+      event.preventDefault();
+    }
 
-    const onPrivateMessage = (payload) => {
-      console.log(payload);
-      var payloadData = JSON.parse(payload.body);
-      if (privateChats.get(payloadData.senderName)) {
-        privateChats.get(payloadData.senderName).push(payloadData);
-        setPrivateChats(new Map(privateChats));
+    function onMessageReceived(payload) {
+      var message = JSON.parse(payload.body);
+
+      var messageElement = document.createElement("li");
+      //using de enum class in java
+      if (message.type === "JOIN") {
+        messageElement.classList.add("event-message");
+        message.content = message.sender + " joined!";
+      } else if (message.type === "LEAVE") {
+        messageElement.classList.add("event-message");
+        message.content = message.sender + " left!";
       } else {
-        let list = [];
-        list.push(payloadData);
-        privateChats.set(payloadData.senderName, list);
-        setPrivateChats(new Map(privateChats));
-      }
-    };
+        messageElement.classList.add("chat-message");
 
-    const onError = (err) => {
-      console.log(err);
-    };
-
-    const handleMessage = (event) => {
-      const { value } = event.target;
-      setUserData({ ...userData, message: value });
-    };
-    const sendValue = () => {
-      if (stompClient) {
-        var chatMessage = {
-          senderName: userData.username,
-          message: userData.message,
-          status: "MESSAGE",
-        };
-        console.log(chatMessage);
-        stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-        setUserData({ ...userData, message: "" });
-      }
-    };
-
-    const sendPrivateValue = () => {
-      if (stompClient) {
-        var chatMessage = {
-          senderName: userData.username,
-          receiverName: tab,
-          message: userData.message,
-          status: "MESSAGE",
-        };
-
-        if (userData.username !== tab) {
-          privateChats.get(tab).push(chatMessage);
-          setPrivateChats(new Map(privateChats));
-        }
-        stompClient.send(
-          "/app/private-message",
-          {},
-          JSON.stringify(chatMessage)
+        var avatarElement = document.createElement("i");
+        var avatarText = document.createTextNode(message.sender[0]);
+        avatarElement.appendChild(avatarText);
+        avatarElement.style["background-color"] = getAvatarColor(
+          message.sender
         );
-        setUserData({ ...userData, message: "" });
+
+        messageElement.appendChild(avatarElement);
+
+        var usernameElement = document.createElement("span");
+        var usernameText = document.createTextNode(message.sender);
+        usernameElement.appendChild(usernameText);
+        messageElement.appendChild(usernameElement);
       }
-    };
 
-    const handleUsername = (event) => {
-      const { value } = event.target;
-      setUserData({ ...userData, username: value });
-    };
+      var textElement = document.createElement("p");
+      var messageText = document.createTextNode(message.content);
+      textElement.appendChild(messageText);
 
-    const registerUser = () => {
-      connect();
-    };
-    return (
-      <div className="container">
-        {userData.connected ? (
-          <div className="chat-box">
-            <div className="member-list">
-              <ul>
-                <li
-                  onClick={() => {
-                    setTab("CHATROOM");
-                  }}
-                  className={`member ${tab === "CHATROOM" && "active"}`}
-                >
-                  Chatroom
-                </li>
-                {[...privateChats.keys()].map((name, index) => (
-                  <li
-                    onClick={() => {
-                      setTab(name);
-                    }}
-                    className={`member ${tab === name && "active"}`}
-                    key={index}
-                  >
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {tab === "CHATROOM" && (
-              <div className="chat-content">
-                <ul className="chat-messages">
-                  {publicChats.map((chat, index) => (
-                    <li
-                      className={`message ${
-                        chat.senderName === userData.username && "self"
-                      }`}
-                      key={index}
-                    >
-                      {chat.senderName !== userData.username && (
-                        <div className="avatar">{chat.senderName}</div>
-                      )}
-                      <div className="message-data">{chat.message}</div>
-                      {chat.senderName === userData.username && (
-                        <div className="avatar self">{chat.senderName}</div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+      messageElement.appendChild(textElement);
 
-                <div className="send-message">
-                  <input
-                    type="text"
-                    className="input-message"
-                    placeholder="enter the message"
-                    value={userData.message}
-                    onChange={handleMessage}
-                  />
-                  <button
-                    type="button"
-                    className="send-button"
-                    onClick={sendValue}
-                  >
-                    send
-                  </button>
-                </div>
-              </div>
-            )}
-            {tab !== "CHATROOM" && (
-              <div className="chat-content">
-                <ul className="chat-messages">
-                  {[...privateChats.get(tab)].map((chat, index) => (
-                    <li
-                      className={`message ${
-                        chat.senderName === userData.username && "self"
-                      }`}
-                      key={index}
-                    >
-                      {chat.senderName !== userData.username && (
-                        <div className="avatar">{chat.senderName}</div>
-                      )}
-                      <div className="message-data">{chat.message}</div>
-                      {chat.senderName === userData.username && (
-                        <div className="avatar self">{chat.senderName}</div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+      messageArea.appendChild(messageElement);
+      messageArea.scrollTop = messageArea.scrollHeight;
+    }
 
-                <div className="send-message">
-                  <input
-                    type="text"
-                    className="input-message"
-                    placeholder="enter the message"
-                    value={userData.message}
-                    onChange={handleMessage}
-                  />
-                  <button
-                    type="button"
-                    className="send-button"
-                    onClick={sendPrivateValue}
-                  >
-                    send
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="register">
-            <input
-              id="user-name"
-              placeholder="Enter your name"
-              name="userName"
-              value={userData.username}
-              onChange={handleUsername}
-              margin="normal"
-            />
-            <button type="button" onClick={registerUser}>
-              connect
-            </button>
-          </div>
-        )}
-      </div>
-    );
+    function getAvatarColor(messageSender) {
+      var hash = 0;
+      for (var i = 0; i < messageSender.length; i++) {
+        hash = 31 * hash + messageSender.charCodeAt(i);
+      }
+
+      var index = Math.abs(hash % colors.length);
+      return colors[index];
+    }
+
+    usernameForm.addEventListener("submit", connect, true);
+    messageForm.addEventListener("submit", send, true);
   }
-  
-};
+}
 
-ReactDOM.render(
-  <ChatRoom/>,
-);
+ReactDOM.render(<ChatRoom />, document.getElementById("root"));

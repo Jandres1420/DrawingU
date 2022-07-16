@@ -17,8 +17,8 @@ public class WebSocketConf implements WebSocketMessageBrokerConfigurer {
         // se creaton los topicos /chatroom y /user y tambien el prefijo de destino del
         // usuario
         registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/chatroom","/user");
-        registry.setUserDestinationPrefix("/user");
+        registry.enableSimpleBroker("/topic");
+        //registry.setUserDestinationPrefix("/user");
     };
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

@@ -1,21 +1,45 @@
 package co.edu.escuelaing.interactiveblackboard.entities;
 import co.edu.escuelaing.interactiveblackboard.entities.Status;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+
 public class Message {
     
-    private String senderName, receiverName,message;
-
+    private String content, sender;
     private Status status;
+    private Status type;
     
- 
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getSender() {
+        return this.sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+
+    public Status getType() {
+        return this.type;
+    }
+
+    public void setType(Status type) {
+        this.type = type;
+    }
+    
 }
