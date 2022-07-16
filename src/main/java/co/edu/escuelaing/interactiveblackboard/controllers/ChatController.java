@@ -12,8 +12,9 @@ import co.edu.escuelaing.interactiveblackboard.entities.Message;
 @Controller
 public class ChatController {
 
+    // dinamic topics 
     @Autowired
-    private SimpMessagingTemplate SimpMessagingTemplate;
+    private SimpMessagingTemplate simpMessagingTemplate;
     // Un broadcast para que las demás personas lean el mensaje 
     @MessageMapping("/message") //app/message "this url"
     @SendTo("chatroom/public")
@@ -23,6 +24,9 @@ public class ChatController {
 
     @MessageMapping("private-message")
     public Message receiverPrivateMessage(@Payload Message message){
+        //simpMessagginn usara el prefijo del configurer en regitry.setUserDestinationPrefix("/user") en este caso tomara el "/user"
+        //message.getReciever es el prefijo que se quiere escuchar
+        simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(),"/private",message);//user/David/private <-- asi es como se veria más o menos un mensaje 
         return message;
     }
 
