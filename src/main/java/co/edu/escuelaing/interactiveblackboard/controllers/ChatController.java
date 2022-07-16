@@ -1,26 +1,29 @@
 package co.edu.escuelaing.interactiveblackboard.controllers;
 
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-import co.edu.escuelaing.interactiveblackboard.entities.Message;
+import co.edu.escuelaing.interactiveblackboard.entities.ChatMessage;
+
+
 
 @Controller
 public class ChatController {
 
     @MessageMapping("/chat.register")
     @SendTo("/topic/public")
-    public Message register(@Payload Message chatMessage,SimpMessageHeaderAccessor headerAccesor){
-        headerAccesor.getSessionAttributes().put("username", chatMessage.getSender());
+    public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         return chatMessage;
     }
 
     @MessageMapping("/chat.send")
     @SendTo("/topic/public")
-    public Message sendMessage(@Payload Message chatMessage ){
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
         return chatMessage;
     }
 
