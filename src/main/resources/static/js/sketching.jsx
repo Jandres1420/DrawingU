@@ -152,8 +152,9 @@ class BBCanvas extends React.Component {
     flag = false;
     erase = false;
     console.log(" Este es el nombre por local " + user);
-    this.timerID = setInterval(() => this.checkWord(), 25000);
-    this.getStatus(user);
+    this.timerID = setInterval(() => this.checkWord(), 25000); //Timer que da la palabra a dibujar 
+    this.getStatus(user); //se supone que esto trae el pintor
+    this.settingUserToChat();
   }
   checkWord() {
     console.log("Estan oprimiendo el boton");
@@ -166,6 +167,12 @@ class BBCanvas extends React.Component {
       );
   }
 
+  settingUserToChat(){
+    document.getElementById("name").value = localStorage.getItem("user"); // Pone al input el usuario actual registrado
+    var pagebutton = document.getElementById("botonusuario");
+    pagebutton.click();
+    
+  }
   getStatus(user) {
     console.log("ENTRO AL ESTDO");
     let file = "/game?pintor=" + "'" + user + "'";

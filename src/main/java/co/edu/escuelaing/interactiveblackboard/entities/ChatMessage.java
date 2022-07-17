@@ -1,5 +1,4 @@
 package co.edu.escuelaing.interactiveblackboard.entities;
-import co.edu.escuelaing.interactiveblackboard.entities.Status;
 
 public class ChatMessage {
     private String content;
