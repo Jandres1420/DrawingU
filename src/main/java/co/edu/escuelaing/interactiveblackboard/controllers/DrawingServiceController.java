@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.escuelaing.interactiveblackboard.entities.Board;
+import co.edu.escuelaing.interactiveblackboard.entities.DrawingU;
 import co.edu.escuelaing.interactiveblackboard.entities.User;
 @RestController
 public class DrawingServiceController {
@@ -26,7 +27,7 @@ public class DrawingServiceController {
     }
 
     public void sessionManagement() {
-        System.out.println(request.getSession(true).getId());
+       // System.out.println(request.getSession(true).getId());
     }
 
     @PostMapping("/index")
@@ -51,4 +52,11 @@ public class DrawingServiceController {
         User user = Board.getInstance().getUsuarios().get(posicion);
         return ("El usuario " + user.getName() + " es un " +  user.getPintor());
     }
+
+    @GetMapping("/testing")
+    public String prueba(@RequestParam(value = "pintor") String pintor) {
+        String hola = "";
+        return hola;
+    }
+
 }
