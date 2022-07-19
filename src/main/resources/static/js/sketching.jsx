@@ -145,15 +145,12 @@ class BBCanvas extends React.Component {
     color = "black";
     flag = false;
     erase = false;
-    console.log(" Este es el nombre por local " + user);
     this.timerID = setInterval(() => this.checkWord(), 25000); //Timer que da la palabra a dibujar 
     this.getStatus(user); //se supone que esto trae el pintor
     this.settingUserToChat();
   }
   checkWord() {
-    console.log("Estan oprimiendo el boton");
     let file = "/getWord";
-    console.log("file " + file);
     fetch(file, { method: "GET" })
       .then((x) => x.json())
       .then(
@@ -168,13 +165,11 @@ class BBCanvas extends React.Component {
     
   }
   getStatus(user) {
-    console.log("ENTRO AL ESTDO");
     let file = "/game?pintor=" + "'" + user + "'";
-
-    console.log("file " + file);
     fetch(file, { method: "GET" })
       .then((x) => x.json())
       .then((y) => (document.getElementById("estado").innerHTML = y.getStatus));
+    console.log("Asignando variable " + pintor);
   }
   render() {
     return (
