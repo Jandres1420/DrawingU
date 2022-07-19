@@ -50,7 +50,13 @@ public class DrawingServiceController {
         sessionManagement();
         int posicion = Board.getInstance().getPositionUser(pintor);
         User user = Board.getInstance().getUsuarios().get(posicion);
-        return ("El usuario " + user.getName() + " es un " +  user.getPintor());
+        System.out.println("Este es el valor del front " + pintor);
+        System.out.println("Esta es la posicion "+ posicion);
+        System.out.println("Este es el usuario " + user.getName());
+        System.out.println("{\"getStatus\":\""
+                + user.getPintor() + "\"}");
+        return "{\"getStatus\":\""
+                + user.getPintor() + "\"}";
     }
 
     @GetMapping("/testing")

@@ -85,7 +85,7 @@ class Editor extends React.Component {
         <div id="postwords"></div>
         <div id="pintor">
           <h3> Buenas aca va a estar si eres pintor </h3>
-          <script id="estado"></script>
+          <div id="estado"></div>
         </div>
         <hr />
         <div id="toolstatus"></div>
@@ -176,10 +176,11 @@ class BBCanvas extends React.Component {
   getStatus(user) {
     console.log("ENTRO AL ESTDO");
     let file = "/game?pintor=" + "'" + user + "'";
+
     console.log("file " + file);
     fetch(file, { method: "GET" })
-      .then((x) => x.text())
-      .then((y) => (document.getElementById("estado").innerHTML = y));
+      .then((x) => x.json())
+      .then((y) => (document.getElementById("estado").innerHTML = y.getStatus));
   }
   render() {
     return (
