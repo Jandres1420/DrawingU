@@ -102,7 +102,8 @@ class BBCanvas extends React.Component {
       this.drawPoint(obj.x, obj.y, obj.color,obj.erase);
     });
     this.myp5 = null;
-    this.state = { loadingState: "Loading Canvas ..." };
+    this.state = { loadingState: "Loading Canvas ..." ,
+                  pintor : "No sabemos"};
     // Es el cambio echo en el tablero
     let wsreference = this.comunicationWS;
     this.sketch = function (p) {
@@ -112,7 +113,7 @@ class BBCanvas extends React.Component {
         p.createCanvas(700, 410);
       };
       p.draw = function () {
-        if (p.mouseIsPressed === true) {
+        if (p.mouseIsPressed === true && pintor) {
           p.fill(color);
           p.ellipse(p.mouseX, p.mouseY, 10, 10);
           wsreference.send(p.mouseX, p.mouseY, color,erase);
@@ -142,11 +143,12 @@ class BBCanvas extends React.Component {
   componentDidMount() {
     this.myp5 = new p5(this.sketch, "container");
     this.setState({ loadingState: "Canvas Loaded" });
+    this.getStatus(user);
     color = "black";
     flag = false;
     erase = false;
     this.timerID = setInterval(() => this.checkWord(), 25000); //Timer que da la palabra a dibujar 
-    this.getStatus(user); //se supone que esto trae el pintor
+   
     this.settingUserToChat();
   }
   checkWord() {
@@ -164,17 +166,21 @@ class BBCanvas extends React.Component {
     pagebutton.click();
     
   }
-  getStatus(user) {
+  async getStatus(user) {
     let file = "/game?pintor=" + "'" + user + "'";
-    fetch(file, { method: "GET" })
+    pintor = await fetch(file, { method: "GET" })
       .then((x) => x.json())
-      .then((y) => (document.getElementById("estado").innerHTML = y.getStatus));
+    if(pintor){
+      this.setState({pintor:"Eres pintor"});
+    }else{
+      this.setState({pintor:"No eres pintor"});
+    }
     console.log("Asignando variable " + pintor);
   }
   render() {
     return (
       <div>
-        <h4>Drawing status: {this.state.loadingState}</h4>
+        <h5>{this.state.pintor}</h5>
       </div>
     );
   }

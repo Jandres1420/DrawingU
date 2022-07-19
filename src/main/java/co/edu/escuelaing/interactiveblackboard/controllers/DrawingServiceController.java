@@ -1,9 +1,16 @@
 package co.edu.escuelaing.interactiveblackboard.controllers;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,17 +52,17 @@ public class DrawingServiceController {
 
     }
 
+    
     @GetMapping("/game")
-    public String getStatus(@RequestParam (value = "pintor") String pintor ) {
+    public ResponseEntity<?> getStatus(@RequestParam (value = "pintor") String pintor ) {
         sessionManagement();
         posicion = Board.getInstance().getPositionUser(pintor);
         User user = Board.getInstance().getUsuarios().get(posicion);
-        return "{\"getStatus\":\""
-                + user.getPintor() + "\"}";
+        return new ResponseEntity<>(user.getPintor(),HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/testing")
-    public String prueba(@RequestParam(value = "pintor") String pintor) {
+    @GetMapping("/getRoom")
+    public String getRoom(@RequestParam(value = "pintor") String pintor) {
         String hola = "";
         return hola;
     }
