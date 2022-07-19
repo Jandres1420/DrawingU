@@ -69,7 +69,7 @@ class Editor extends React.Component {
           type="button"
           class="btn btn-dark"
           onClick={function () {
-            flag = true;
+            flag = true;     
           }}
         >
           Borrar Tablero
@@ -77,10 +77,7 @@ class Editor extends React.Component {
         <hr />
         <h2> Palabra a dibujar : </h2>
         <div id="postwords"></div>
-        <div id="pintor">
-          <h3> Buenas aca va a estar si eres pintor </h3>
-          <div id="estado"></div>
-        </div>
+     
         <hr />
         <div id="toolstatus"></div>
         <hr />
@@ -92,7 +89,6 @@ class Editor extends React.Component {
     );
   }
 }
-
 class BBCanvas extends React.Component {
   constructor(props) {
     super(props);
@@ -114,6 +110,7 @@ class BBCanvas extends React.Component {
       };
       p.draw = function () {
         if (p.mouseIsPressed === true && pintor) {
+          erase = false;
           p.fill(color);
           p.ellipse(p.mouseX, p.mouseY, 10, 10);
           wsreference.send(p.mouseX, p.mouseY, color,erase);
@@ -131,10 +128,15 @@ class BBCanvas extends React.Component {
     };
   }
   drawPoint(x, y, color,erase) {
+    console.log("x " , x);
+    console.log("y ", y);
+    console.log("color ", color);
+    console.log("erase ", erase);
     this.myp5.fill(color);
     this.myp5.ellipse(x, y, 10, 10);
     console.log("El booleano es : "+erase);
-    if(erase){
+    if(erase == "true"){
+      console.log("ENTRA Y BORRAS " + erase);
       this.myp5.clear();
       erase = false;
     }
@@ -152,12 +154,15 @@ class BBCanvas extends React.Component {
     this.settingUserToChat();
   }
   checkWord() {
-    let file = "/getWord";
-    fetch(file, { method: "GET" })
-      .then((x) => x.json())
-      .then(
-        (y) => (document.getElementById("postwords").innerHTML = y.getWord)
-      );
+    if(pintor){
+      let file = "/getWord";
+      fetch(file, { method: "GET" })
+        .then((x) => x.json())
+        .then(
+          (y) => (document.getElementById("postwords").innerHTML = y.getWord)
+        );
+    }
+    
   }
 
   settingUserToChat(){
@@ -223,9 +228,10 @@ class WSBBChannel {
   // Enviar puntos
   send(x, y, color,erase) {
     let msg =
-      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '"'+ "}";
+      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '", "erase": "' + erase + '"'+ "}";
     console.log("sending: ", msg);
     console.log("color ", color);
+    console.log("Borar ", erase)
     //enviar puntos por socket
     this.wsocket.send(msg);
   }
