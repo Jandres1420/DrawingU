@@ -41,10 +41,11 @@ public class Board {
     public int getPositionUser(String user){
         int pos = 0;
         for(int i = 0 ; i<users.size();i++){
-            if(users.get(i).getName() == user){
+            if(users.get(i).getName().equals(user)){
                 pos = i;
             }
         }
+        System.out.println("Posicion en el tablero " + pos);
         return pos;
     }
 

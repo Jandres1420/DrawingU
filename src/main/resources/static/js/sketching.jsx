@@ -2,6 +2,7 @@ var flag;
 var color;
 var user;
 var erase;
+var pintor;
 class Editor extends React.Component {
   render() {
     return (
@@ -15,7 +16,6 @@ class Editor extends React.Component {
             color = "blue";
           }}
         >
-          Blue
         </button>
         <button
           type="button"
@@ -24,7 +24,6 @@ class Editor extends React.Component {
             color = "darkgray";
           }}
         >
-          Gray
         </button>
         <button
           type="button"
@@ -33,7 +32,6 @@ class Editor extends React.Component {
             color = "lawngreen";
           }}
         >
-          Green
         </button>
         <button
           type="button"
@@ -42,7 +40,6 @@ class Editor extends React.Component {
             color = "red";
           }}
         >
-          Red
         </button>
         <button
           type="button"
@@ -51,7 +48,6 @@ class Editor extends React.Component {
             color = "yellow";
           }}
         >
-          Yellow
         </button>
         <button
           type="button"
@@ -60,7 +56,6 @@ class Editor extends React.Component {
             color = "snow";
           }}
         >
-          White
         </button>
         <button
           type="button"
@@ -69,7 +64,6 @@ class Editor extends React.Component {
             color = "black";
           }}
         >
-          Black
         </button>
         <button
           type="button"

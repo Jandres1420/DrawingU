@@ -14,7 +14,7 @@ import co.edu.escuelaing.interactiveblackboard.entities.User;
 public class DrawingServiceController {
     @Resource
     private HttpServletRequest request;
-
+    int posicion = 0;
     @GetMapping("/status")
     public String status() {
         sessionManagement();
@@ -48,13 +48,8 @@ public class DrawingServiceController {
     @GetMapping("/game")
     public String getStatus(@RequestParam (value = "pintor") String pintor ) {
         sessionManagement();
-        int posicion = Board.getInstance().getPositionUser(pintor);
+        posicion = Board.getInstance().getPositionUser(pintor);
         User user = Board.getInstance().getUsuarios().get(posicion);
-        System.out.println("Este es el valor del front " + pintor);
-        System.out.println("Esta es la posicion "+ posicion);
-        System.out.println("Este es el usuario " + user.getName());
-        System.out.println("{\"getStatus\":\""
-                + user.getPintor() + "\"}");
         return "{\"getStatus\":\""
                 + user.getPintor() + "\"}";
     }
