@@ -69,7 +69,9 @@ class Editor extends React.Component {
           type="button"
           class="btn btn-dark"
           onClick={function () {
-            flag = true;     
+            if(pintor){
+              flag = true;
+            }
           }}
         >
           Borrar Tablero

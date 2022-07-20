@@ -7,21 +7,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DrawingU {
-    private List<Rooms> rooms;
+    private Rooms rooms;
     private static DrawingU _instance = new DrawingU();
     public static DrawingU getInstance() {
         return _instance;
     }
     public DrawingU(){
-        rooms = new ArrayList<>();
+        rooms = new Rooms();
     }
-    public List<Rooms> getRooms() {
+
+    public Rooms getRooms() {
         return this.rooms;
     }
 
     public void setRooms(Rooms rooms) {
-        this.rooms.add(rooms);
+        this.rooms = rooms;
     }
+    
 
     @Override
     public String toString() {
