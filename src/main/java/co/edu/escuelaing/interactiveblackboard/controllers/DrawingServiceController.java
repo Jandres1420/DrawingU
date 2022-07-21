@@ -40,7 +40,7 @@ public class DrawingServiceController {
     @PostMapping("/index")
     public void getName(@RequestParam(value = "name") String name) {
         System.out.println("name + " + name);
-        Board.getInstance().setUsuario(new User(name));
+        DrawingU.getInstance().getRooms().getBoard().setUsuario(new User(name));
     }
     
     @PostMapping("/aRooms")
@@ -57,7 +57,7 @@ public class DrawingServiceController {
         sessionManagement();
         String name = (String) request.getSession().getAttribute("name");
         return "{\"getWord\":\""
-                + Board.getInstance().getWords().getRandomWord() +"\"}";
+                + DrawingU.getInstance().getRooms().getBoard().getWords().getRandomWord() +"\"}";
 
     }
 
@@ -65,8 +65,8 @@ public class DrawingServiceController {
     @GetMapping("/game")
     public ResponseEntity<?> getStatus(@RequestParam (value = "pintor") String pintor ) {
         sessionManagement();
-        posicion = Board.getInstance().getPositionUser(pintor);
-        User user = Board.getInstance().getUsuarios().get(posicion);
+        posicion = DrawingU.getInstance().getRooms().getBoard().getPositionUser(pintor);
+        User user = DrawingU.getInstance().getRooms().getBoard().getUsuarios().get(posicion);
         return new ResponseEntity<>(user.getPintor(),HttpStatus.ACCEPTED);
     }
 

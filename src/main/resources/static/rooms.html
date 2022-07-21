@@ -20,7 +20,10 @@
         <a href=""></a>
         <a  type="button"  class="fcc-btn" href="/game.html" onclick="getname();" > crear sala</a>
 		 <a href=""></a>
-		<a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoom();" > Sala A</a>
+    <div>
+
+    </div id = "botones_salas">
+		  <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoom();" > Sala A</a>
         <div id "postrespmsg"></div>
         <script >function addingUserToRoom(){
           console.log('Estan oprimiendo el boton');    
@@ -32,7 +35,43 @@
 
           }</script>
       </form>
-    <div id = ></div>
+      <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoomB();" > Sala B</a>
+        <div id "postrespmsg"></div>
+        <script >function addingUserToRoomB(){
+          console.log('Estan oprimiendo el boton');    
+          let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala B "+""; 
+          console.log("file " + file);
+          fetch (file,{method:'POST'})
+              .then(x => x.text())
+              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
+
+          }</script>
+      </form>
+      <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoomC();" > Sala C</a>
+        <div id "postrespmsg"></div>
+        <script >function addingUserToRoomC(){
+          console.log('Estan oprimiendo el boton');    
+          let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala C "+""; 
+          console.log("file " + file);
+          fetch (file,{method:'POST'})
+              .then(x => x.text())
+              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
+
+          }</script>
+      </form>
+
+      <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoomD();" > Sala D</a>
+        <div id "postrespmsg"></div>
+        <script >function addingUserToRoomD(){
+          console.log('Estan oprimiendo el boton');    
+          let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala D "+""; 
+          console.log("file " + file);
+          fetch (file,{method:'POST'})
+              .then(x => x.text())
+              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
+
+          }</script>
+      </form>
     </div>
   </body>
 

@@ -66,6 +66,14 @@ body {
     font-size: 22px;
     margin: 0;
     text-align: center;
+    letter-spacing: 10.px;
+    
+  }
+
+  #botones_salas{
+    position: fixed;
+    top: 80%;
+    left: 20%;
   }
   
-  
+ 
