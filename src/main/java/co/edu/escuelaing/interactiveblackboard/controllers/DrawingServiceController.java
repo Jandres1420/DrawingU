@@ -48,7 +48,7 @@ public class DrawingServiceController {
         System.out.println("rooms + " + rooms);
         DrawingU.getInstance().getRooms().settingUser(new User(name), rooms);
         for(int i = 0 ; i< DrawingU.getInstance().getRooms().gettingSize(rooms);i++){
-            System.out.println("Usuario agregado a la " + rooms + " " + DrawingU.getInstance().getRooms().getSalasDef().get(rooms).get(i));
+            System.out.println("Usuario agregado a la " + rooms + " " + DrawingU.getInstance().getRooms().getSalasDef().get(rooms).get(i).getName());
         }
     }
 

@@ -3,8 +3,8 @@ package co.edu.escuelaing.interactiveblackboard.entities;
 public class User {
     private String name;
     private boolean pintor;
-    private int puntaje;
-    public User(String name){
+ 
+   private int puntaje;    public User(String name){
         this.name = name;
     }
 

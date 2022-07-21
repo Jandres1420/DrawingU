@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Rooms {
 
-    private HashMap<String,List<String>> salasDef;
+    private HashMap<String,List<User>> salasDef;
     private Board board;
     public Rooms(){
         board = new Board();
@@ -23,7 +23,7 @@ public class Rooms {
     }
 
     private void defsalas(){
-        List<String>list = new ArrayList<>();
+        List<User>list = new ArrayList<>();
         salasDef = new HashMap<>();
         salasDef.put("Sala A", list);
         salasDef.put("Sala B", list);
@@ -33,8 +33,8 @@ public class Rooms {
     }
 
     public void settingUser(User user,String key){
-        List<String> list = salasDef.get(key);
-        list.add(user.getName());
+        List<User> list = salasDef.get(key);
+        list.add(user);
     }
 
     public int gettingSize(String name){
@@ -42,11 +42,11 @@ public class Rooms {
     }
 
 
-    public HashMap<String,List<String>> getSalasDef() {
+    public HashMap<String,List<User>> getSalasDef() {
         return this.salasDef;
     }
 
-    public void setSalasDef(HashMap<String,List<String>> salasDef) {
+    public void setSalasDef(HashMap<String,List<User>> salasDef) {
         this.salasDef = salasDef;
     }
 
