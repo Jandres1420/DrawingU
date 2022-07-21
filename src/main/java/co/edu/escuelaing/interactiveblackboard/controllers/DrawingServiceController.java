@@ -58,6 +58,15 @@ public class DrawingServiceController {
 
     }
 
+    @GetMapping("/numeroPersonasBool")
+    public ResponseEntity<?> numeroPersonasBool(@RequestParam(value = "key") String key) {
+        return new ResponseEntity<>(DrawingU.getInstance().getRooms().numeroMinimoDePersonas(key), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/numeroPersonas")
+    public ResponseEntity<?> numeroPersonas(@RequestParam(value = "key") String key) {
+        return new ResponseEntity<>(DrawingU.getInstance().getRooms().numeroDePersonas(key), HttpStatus.ACCEPTED);
+    }    
     
     @GetMapping("/game")
     public ResponseEntity<?> getStatus(@RequestParam (value = "pintor") String pintor ) {

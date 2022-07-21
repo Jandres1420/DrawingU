@@ -9,7 +9,7 @@ public class Rooms {
 
     private HashMap<String, List<User>> salasDef;
     private Board board;
-
+    private Puntaje puntaje;
     public Rooms() {
         board = new Board();
         defsalas();
@@ -72,6 +72,19 @@ public class Rooms {
                 users.get(pos).setPintor(false);
             }
             System.out.println("Usuario agregado: " + user.getName());
+    }
+
+    public boolean numeroMinimoDePersonas(String key){
+        boolean flag = false;
+        if(numeroDePersonas(key)<=1){
+            flag = false;
+        }else{
+            flag = true;
+        }
+        return flag;
+    }
+    public int numeroDePersonas(String key){
+        return salasDef.get(key).size();
     }
 
 }

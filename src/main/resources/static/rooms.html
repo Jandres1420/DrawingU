@@ -28,6 +28,7 @@
         <script >function addingUserToRoom(){
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala A "+""; 
+          localStorage.setItem("key","Sala A"); 
           console.log("file " + file);
           fetch (file,{method:'POST'})
               .then(x => x.text())
@@ -41,6 +42,7 @@
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala B "+""; 
           console.log("file " + file);
+          localStorage.setItem("key","Sala B"); 
           fetch (file,{method:'POST'})
               .then(x => x.text())
               .then(y =>  document.getElementById("roomb").innerHTML = y)
@@ -50,6 +52,7 @@
       <a  id = "buttonc" type="button"  class="fcc-btn" href="/game.html"  onclick="addingUserToRoomC();" > Sala C</a>
         <div id "roomc"></div>
         <script >function addingUserToRoomC(){
+          localStorage.setItem("key","Sala C"); 
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala C "+""; 
           console.log("file " + file);
@@ -63,6 +66,7 @@
       <a  id = "buttond" type="button"  class="fcc-btn"  href="/game.html" onclick="addingUserToRoomD();" > Sala D</a>
         <div id "roomd"></div>
         <script >function addingUserToRoomD(){
+          localStorage.setItem("key","Sala D"); 
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala D "+""; 
           console.log("file " + file);

@@ -3,6 +3,8 @@ var color;
 var user;
 var erase;
 var pintor;
+var numeroPer;
+var jugar;
 class Editor extends React.Component {
   render() {
     return (
@@ -111,21 +113,24 @@ class BBCanvas extends React.Component {
         p.createCanvas(700, 410);
       };
       p.draw = function () {
-        if (p.mouseIsPressed === true && pintor) {
+        if(jugar){
+          if (p.mouseIsPressed === true && pintor) {
           erase = false;
           p.fill(color);
           p.ellipse(p.mouseX, p.mouseY, 10, 10);
           wsreference.send(p.mouseX, p.mouseY, color,erase);
+         }
+          if (p.mouseIsPressed === false) {
+            p.fill(255, 255, 255);
+          }
+          if (flag) {
+            p.clear();
+            erase = true;
+            wsreference.send(p.mouseX, p.mouseY, color, erase);
+            flag = false;
+          }
         }
-        if (p.mouseIsPressed === false) {
-          p.fill(255, 255, 255);
-        }
-        if (flag) {
-          p.clear();
-          erase = true;
-          wsreference.send(p.mouseX, p.mouseY, color, erase);
-          flag = false;
-        }
+        
       };
     };
   }
@@ -145,6 +150,8 @@ class BBCanvas extends React.Component {
   }
 
   componentDidMount() {
+    this.canPlay();
+    this.numberOfPeople();
     this.myp5 = new p5(this.sketch, "container");
     this.setState({ loadingState: "Canvas Loaded" });
     this.getStatus(user);
@@ -152,8 +159,8 @@ class BBCanvas extends React.Component {
     flag = false;
     erase = false;
     this.timerID = setInterval(() => this.checkWord(), 25000); //Timer que da la palabra a dibujar 
-   
     this.settingUserToChat();
+    
   }
   checkWord() {
     if(pintor){
@@ -164,7 +171,26 @@ class BBCanvas extends React.Component {
           (y) => (document.getElementById("postwords").innerHTML = y.getWord)
         );
     }
+  }
+  async numberOfPeople(){
+    console.log("no toma esto");
+    let file = "/numeroPersonas?key=" +""+localStorage.getItem("key")+"";
+    numeroPer = await fetch(file, { method: "GET" })
+      .then((x) => x.json())
     
+    console.log("numero per" + numeroPer);
+    
+  }
+  async canPlay(){
+    let file = "/numeroPersonasBool?key=" + "" + localStorage.getItem("key") + "";
+    jugar = await fetch(file, { method: "GET" })
+      .then((x) => x.json())
+    if(jugar){
+      alert("El numero de personas actual es suficiente para jugar")
+    }else{
+      alert("El numero de personas no es suficiente para jugar")
+      this.timerID = setInterval(() => this.canPlay(), 10000);
+    }
   }
 
   settingUserToChat(){
@@ -175,6 +201,7 @@ class BBCanvas extends React.Component {
   }
   async getStatus(user) {
     let file = "/game?pintor=" + "'" + user + "'";
+
     pintor = await fetch(file, { method: "GET" })
       .then((x) => x.json())
     if(pintor){
