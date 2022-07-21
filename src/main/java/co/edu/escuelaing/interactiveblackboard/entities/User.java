@@ -4,8 +4,10 @@ public class User {
     private String name;
     private boolean pintor;
  
-   private int puntaje;    public User(String name){
+   private int puntaje; 
+    public User(String name){
         this.name = name;
+        puntaje = 0;
     }
 
     
@@ -35,5 +37,15 @@ public class User {
     public void setPintor(boolean pintor) {
         this.pintor = pintor;
     }
+
+
+    public int getPuntaje() {
+        return this.puntaje;
+    }
+
+    public void setPuntaje(int puntaje) {
+        this.puntaje = puntaje;
+    }
+
 
 }

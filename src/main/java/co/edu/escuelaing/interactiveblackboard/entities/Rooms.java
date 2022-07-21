@@ -12,6 +12,7 @@ public class Rooms {
     private Puntaje puntaje;
     public Rooms() {
         board = new Board();
+        puntaje = new Puntaje();
         defsalas();
     }
 
@@ -76,7 +77,7 @@ public class Rooms {
 
     public boolean numeroMinimoDePersonas(String key){
         boolean flag = false;
-        if(numeroDePersonas(key)<=1){
+        if(numeroDePersonas(key)<=2){
             flag = false;
         }else{
             flag = true;
@@ -86,5 +87,15 @@ public class Rooms {
     public int numeroDePersonas(String key){
         return salasDef.get(key).size();
     }
+
+
+    public Puntaje getPuntaje() {
+        return this.puntaje;
+    }
+
+    public void setPuntaje(Puntaje puntaje) {
+        this.puntaje = puntaje;
+    }
+
 
 }

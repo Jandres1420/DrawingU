@@ -187,9 +187,10 @@ class BBCanvas extends React.Component {
       .then((x) => x.json())
     if(jugar){
       alert("El numero de personas actual es suficiente para jugar")
+      jugar = false;
     }else{
       alert("El numero de personas no es suficiente para jugar")
-      this.timerID = setInterval(() => this.canPlay(), 10000);
+      // this.timerID= setInterval((jugar) => this.canPlay(), 10000);
     }
   }
 
