@@ -5,7 +5,7 @@
     <title> Rooms DrawingU</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="js/css/styles.css">
+    <link rel="stylesheet" href="js/css/styles2.css">
 </head>
 
   <body>
@@ -23,52 +23,52 @@
     <div>
 
     </div id = "botones_salas">
-		  <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoom();" > Sala A</a>
-        <div id "postrespmsg"></div>
+		  <a  id = "buttona" type="button"  class="fcc-btn" onclick="addingUserToRoom();" > Sala A</a>
+        <div id "rooma"></div>
         <script >function addingUserToRoom(){
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala A "+""; 
           console.log("file " + file);
           fetch (file,{method:'POST'})
               .then(x => x.text())
-              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
+              .then(y =>  document.getElementById("rooma").innerHTML = y)
 
           }</script>
       </form>
-      <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoomB();" > Sala B</a>
-        <div id "postrespmsg"></div>
+      <a  id = "buttonb" type="button"  class="fcc-btn" onclick="addingUserToRoomB();" > Sala B</a>
+        <div id "roomb"></div>
         <script >function addingUserToRoomB(){
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala B "+""; 
           console.log("file " + file);
           fetch (file,{method:'POST'})
               .then(x => x.text())
-              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
+              .then(y =>  document.getElementById("roomb").innerHTML = y)
 
           }</script>
       </form>
-      <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoomC();" > Sala C</a>
-        <div id "postrespmsg"></div>
+      <a  id = "buttonc" type="button"  class="fcc-btn" onclick="addingUserToRoomC();" > Sala C</a>
+        <div id "roomc"></div>
         <script >function addingUserToRoomC(){
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala C "+""; 
           console.log("file " + file);
           fetch (file,{method:'POST'})
               .then(x => x.text())
-              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
+              .then(y =>  document.getElementById("roomc").innerHTML = y)
 
           }</script>
       </form>
 
-      <a  id = "button" type="button"  class="fcc-btn" onclick="addingUserToRoomD();" > Sala D</a>
-        <div id "postrespmsg"></div>
+      <a  id = "buttond" type="button"  class="fcc-btn" onclick="addingUserToRoomD();" > Sala D</a>
+        <div id "roomd"></div>
         <script >function addingUserToRoomD(){
           console.log('Estan oprimiendo el boton');    
           let file = "/aRooms?name=" +"'"+localStorage.getItem("user")+"'&rooms=" + "Sala D "+""; 
           console.log("file " + file);
           fetch (file,{method:'POST'})
               .then(x => x.text())
-              .then(y =>  document.getElementById("postrespmsg").innerHTML = y)
+              .then(y =>  document.getElementById("roomd").innerHTML = y)
 
           }</script>
       </form>

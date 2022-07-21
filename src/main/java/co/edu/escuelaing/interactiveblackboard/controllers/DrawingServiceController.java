@@ -47,9 +47,16 @@ public class DrawingServiceController {
     public void addingUserToRoom(@RequestParam(value = "name") String name,@RequestParam(value = "rooms") String rooms) {
         System.out.println("rooms + " + rooms);
         DrawingU.getInstance().getRooms().settingUser(new User(name), rooms);
-        for(int i = 0 ; i< DrawingU.getInstance().getRooms().gettingSize(rooms);i++){
-            System.out.println("Usuario agregado a la " + rooms + " " + DrawingU.getInstance().getRooms().getSalasDef().get(rooms).get(i).getName());
+        /**
+        System.out.println("Sala A :");
+        
+        for(int i = 0; i<DrawingU.getInstance().getRooms().getSalasDef().get("Sala A").size();i++){
+            System.out.println(DrawingU.getInstance().getRooms().getSalasDef().get("Sala A").get(i).getName());
         }
+        System.out.println("Sala B :");
+        for (int i = 0; i < DrawingU.getInstance().getRooms().getSalasDef().get("Sala B").size(); i++) {
+            System.out.println(DrawingU.getInstance().getRooms().getSalasDef().get("Sala B").get(i).getName());
+        }*/
     }
 
     @GetMapping("/getWord")

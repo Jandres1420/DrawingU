@@ -61,7 +61,7 @@ body {
   .fcc-btn {
     background-color: #ce0505;
     color: white;
-    padding: 15px 25px;
+    padding: initial;
     text-align: center;
     font-size: 22px;
     margin: 0;
@@ -70,5 +70,15 @@ body {
     
   }
 
+  #botones_salas{
+    position: fixed;
+    top: 80%;
+    left: 20%;
+  }
+
+  #buttond{
+    position:fixed;
+    top: 50;
+    left: 50%;
+  }
   
- 
