@@ -46,7 +46,7 @@ public class Rooms {
                 System.out.println("entro a error ");
             }
         }
-
+        settingPintor(user, key);
     }
 
     public int gettingSize(String name) {
@@ -59,6 +59,19 @@ public class Rooms {
 
     public void setSalasDef(HashMap<String, List<User>> salasDef) {
         this.salasDef = salasDef;
+    }
+
+    public void settingPintor(User user, String key ) {
+        List<User> users = new ArrayList<>(salasDef.get(key));
+            if (users.size() == 1 && users.contains(user)) {
+                System.out.println("Es pintor");
+                users.forEach(x -> x.setPintor(true));
+            } else {
+                System.out.println(" NOOO Es pintor");
+                int pos = users.indexOf(user);
+                users.get(pos).setPintor(false);
+            }
+            System.out.println("Usuario agregado: " + user.getName());
     }
 
 }
