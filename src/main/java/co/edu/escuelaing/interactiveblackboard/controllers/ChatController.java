@@ -28,7 +28,7 @@ public class ChatController {
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
         System.out.println("este es el contenido del mensaje " + chatMessage.getContent());
         System.out.println("esta es la persona que envia el mensaje " + chatMessage.getSender());
-        System.out.println(DrawingU.getInstance().getRooms().getPuntaje().setWord(chatMessage.getContent(), chatMessage.getSender(), "hola"));
+        System.out.println(DrawingU.getInstance().getRooms().getPuntaje().setWord(chatMessage.getContent(), chatMessage.getSender()));
         return chatMessage;
     }
 

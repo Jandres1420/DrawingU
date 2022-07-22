@@ -77,10 +77,17 @@ public class DrawingServiceController {
         return new ResponseEntity<>(user.getPintor(),HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/gettingPoints")
+    public ResponseEntity<?> getPoints(@RequestParam (value = "name") String name) {
+        return new ResponseEntity<>(DrawingU.getInstance().getRooms().getPuntaje().getPointsByUsername(name), HttpStatus.ACCEPTED);
+    }
+
     @GetMapping("/getRoom")
     public String getRoom(@RequestParam(value = "pintor") String pintor) {
         String hola = "";
         return hola;
     }
+
+    
 
 }

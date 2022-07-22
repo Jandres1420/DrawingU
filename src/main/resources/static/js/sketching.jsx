@@ -1,10 +1,4 @@
-var flag;
-var color;
-var user;
-var erase;
-var pintor;
-var numeroPer;
-var jugar;
+var flag,color,user,erase,pintor,numeroPer,jugar,points;
 class Editor extends React.Component {
   render() {
     return (
@@ -103,7 +97,9 @@ class BBCanvas extends React.Component {
     });
     this.myp5 = null;
     this.state = { loadingState: "Loading Canvas ..." ,
-                  pintor : "No sabemos"};
+                  pintor : "No sabemos",
+                  puntaje : 0
+                };
     // Es el cambio echo en el tablero
     let wsreference = this.comunicationWS;
     this.sketch = function (p) {
@@ -114,7 +110,6 @@ class BBCanvas extends React.Component {
       };
       p.draw = function () {
         if(jugar){
-          console.log("Entraaa")
           if (p.mouseIsPressed === true && pintor) {
           erase = false;
           p.fill(color);
@@ -153,6 +148,7 @@ class BBCanvas extends React.Component {
   componentDidMount() {
     this.canPlay();
     this.numberOfPeople();
+    this.numberOfPoints();
     this.myp5 = new p5(this.sketch, "container");
     this.setState({ loadingState: "Canvas Loaded" });
     this.getStatus(user);
@@ -174,21 +170,28 @@ class BBCanvas extends React.Component {
     }
   }
   async numberOfPeople(){
-    console.log("no toma esto");
     let file = "/numeroPersonas?key=" +""+localStorage.getItem("key")+"";
     numeroPer = await fetch(file, { method: "GET" })
-      .then((x) => x.json())
-    
+      .then((x) => x.json()) 
     console.log("numero per" + numeroPer);
     
+  }
+  async numberOfPoints(){
+    console.log("punticos");
+    let file = "/gettingPoints?name=" + "" + user + "";
+    points = await fetch(file, { method: "GET" })
+      .then((x) => x.json())
+    console.log("Estos son los puntos del usuario ",points);
+    this.setState({ pintor: points });
+    this.timerID = setInterval(() => this.numberOfPoints(),15000);
   }
   async canPlay(){
     let file = "/numeroPersonasBool?key=" + "" + localStorage.getItem("key") + "";
     jugar = await fetch(file, { method: "GET" })
       .then((x) => x.json())
-    console.log("El booleano para jugar es : " , jugar)
     if(jugar){
       alert("El numero de personas actual es suficiente para jugar")
+      this.timerID = setInterval(() => this.canPlay(), 10000000000);
     }else{
       alert("El numero de personas no es suficiente para jugar")
       this.timerID= setInterval(() => this.canPlay(), 10000);
@@ -217,6 +220,8 @@ class BBCanvas extends React.Component {
     return (
       <div>
         <h5>{this.state.pintor}</h5>
+        <h6> numero de puntos del jugador</h6>
+        <h7> {this.state.puntaje} </h7>
       </div>
     );
   }
