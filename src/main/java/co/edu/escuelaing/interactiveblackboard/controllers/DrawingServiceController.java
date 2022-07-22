@@ -52,9 +52,10 @@ public class DrawingServiceController {
     @GetMapping("/getWord")
     public String getWord() {
         sessionManagement();
-        String name = (String) request.getSession().getAttribute("name");
+        String word = DrawingU.getInstance().getRooms().getBoard().getWords().getRandomWord();
+        DrawingU.getInstance().getRooms().getPuntaje().setPalabraRandom(word);
         return "{\"getWord\":\""
-                + DrawingU.getInstance().getRooms().getBoard().getWords().getRandomWord() +"\"}";
+                + word +"\"}";
 
     }
 

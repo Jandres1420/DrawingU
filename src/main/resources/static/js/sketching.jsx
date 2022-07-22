@@ -114,6 +114,7 @@ class BBCanvas extends React.Component {
       };
       p.draw = function () {
         if(jugar){
+          console.log("Entraaa")
           if (p.mouseIsPressed === true && pintor) {
           erase = false;
           p.fill(color);
@@ -185,12 +186,12 @@ class BBCanvas extends React.Component {
     let file = "/numeroPersonasBool?key=" + "" + localStorage.getItem("key") + "";
     jugar = await fetch(file, { method: "GET" })
       .then((x) => x.json())
+    console.log("El booleano para jugar es : " , jugar)
     if(jugar){
       alert("El numero de personas actual es suficiente para jugar")
-      jugar = false;
     }else{
       alert("El numero de personas no es suficiente para jugar")
-      // this.timerID= setInterval((jugar) => this.canPlay(), 10000);
+      this.timerID= setInterval(() => this.canPlay(), 10000);
     }
   }
 

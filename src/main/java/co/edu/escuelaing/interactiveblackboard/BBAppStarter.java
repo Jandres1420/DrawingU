@@ -4,7 +4,6 @@ import java.util.Collections;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import co.edu.escuelaing.interactiveblackboard.entities.DrawingU;
 @SpringBootApplication
 public class BBAppStarter {
     public static void main(String[] args){

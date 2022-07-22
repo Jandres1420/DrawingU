@@ -7,60 +7,61 @@ import java.util.List;
 public class Puntaje {
     HashMap<String,String> puntaje;
     private List<User> users;
+    private List<List<String>> jugadorPuntos;
+    private String palabraRandom;
     private User user;
     public Puntaje(){
         puntaje = new HashMap<>();
         users = new ArrayList<>();
+        jugadorPuntos = new ArrayList<List<String>>();
     }
 
-    public int setWord(String wordChat, User user, String word){
+    public int setWord(String wordChat, String name, String word){
         int memoria = 0;
         int pos = 0;
         System.out.println(" Entra setWord");
-        if(!(users.contains(user))){
-            System.out.println("no esta contenido");
-            users.add(user);
-            añadirPersonas();
-        }
-        if(word.equals(wordChat)){
-            System.out.println("Es la misma palabra");
-            pos = users.indexOf(user);   
-            users.get(pos).setPuntaje(puntajeCantidad(user)); 
-        }
-        return pos;
-    }
-
-    private void añadirPersonas(){
-        System.out.println("Añade al hashmap");
-        for(int i= 0 ; i<users.size();i++){
-            puntaje.put(users.get(i).getName(), "nada");
-        }
-        System.out.println("HashMap size : "+puntaje.size());
-    }
-
-    private int puntajeCantidad(User user){
-        int pos = users.indexOf(user);
-        System.out.println("posicion en lista " + pos);
-        int pun = users.get(pos).getPuntaje();
-        if(users.size()>=3){
-            System.out.println("Puntuación del usuario " + user.getName() + " puntos " + user.getPuntaje());
-            if (puntaje.get(user.getName()).equals("nada")) {
-                for (int i = 0; i < puntaje.values().size(); i++) {
-                    int numeroNada = 0;
-                    List<String> list = new ArrayList<String>(puntaje.values());
-                    if (list.get(i).equals("puntos")) {
-                        numeroNada++;
-                    } else {
-                        numeroNada--;
+        if(jugadorPuntos.get(0).contains(name) && jugadorPuntos.get(1).contains("No tiene puntos de momento")){
+            System.out.println("entra al if grande");
+            if(wordChat.equals(word)){
+                System.out.println("las palabras son iguales!");
+                for(User u:users){
+                    pos = jugadorPuntos.get(0).indexOf(name);
+                    if(u.getName().equals(jugadorPuntos.get(0).get(pos))){
+                        System.out.println("Se encontro el el usuario en la lista con el de la matriz");
+                        memoria = u.getPuntaje() + tienePuntos();
+                        u.setPuntaje(memoria);
+                        jugadorPuntos.get(1).set(pos, "punto");
                     }
-                    pun -= numeroNada;
                 }
             }
-            puntaje.put(user.getName(), "puntos");
-        }      
-        return pun;
+            else {
+                System.out.println("entra al else");
+                if (!(wordChat.equals(word))) {
+                    System.out.println("las palabras NO son iguales!");
+                    for (User u : users) {
+                        pos = jugadorPuntos.get(0).indexOf(name); //error encontrado aquí
+                        if (u.getName().equals(jugadorPuntos.get(0).get(pos))) {
+                            System.out.println("Se encontro el el usuario en la lista con el de la matriz");
+                            memoria = u.getPuntaje();
+                            u.setPuntaje(memoria);
+                            jugadorPuntos.get(1).set(pos, "No tiene puntos de momento");
+                        }
+                    }
+                }
+            }
+        }
+        return memoria;
     }
 
+    private int tienePuntos(){
+        int cont = jugadorPuntos.get(0).size();
+        for(int i = 0; i<jugadorPuntos.get(0).size();i++){
+            if(jugadorPuntos.get(0).get(i).equals("punto")){
+                cont--;
+            }
+        }
+        return cont;
+    }
 
     public List<User> getUsers() {
         return this.users;
@@ -85,5 +86,26 @@ public class Puntaje {
     public void setUser(User user) {
         this.user = user;
         users.add(user); 
+        jugadorPuntos.add(new ArrayList<String>());
+        jugadorPuntos.get(0).add(user.getName());
+        jugadorPuntos.get(1).add("No tiene puntos de momento");
     }
+
+
+    public List<List<String>> getJugadorPuntos() {
+        return this.jugadorPuntos;
+    }
+
+    public void setJugadorPuntos(List<List<String>> jugadorPuntos) {
+        this.jugadorPuntos = jugadorPuntos;
+    }
+
+    public String getPalabraRandom() {
+        return this.palabraRandom;
+    }
+
+    public void setPalabraRandom(String palabraRandom) {
+        this.palabraRandom = palabraRandom;
+    }
+
 }
