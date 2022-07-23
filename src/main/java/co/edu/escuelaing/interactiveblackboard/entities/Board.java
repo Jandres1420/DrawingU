@@ -38,6 +38,26 @@ public class Board {
         
     }
 
+    public boolean changingPintor(String name){
+        boolean flag = false;
+        for(int i = 0 ; i<users.size();i++){
+            if(users.get(i).getName().equals(name)){
+                if(users.get(i).getPintor()==true){
+                    users.get(i).setPintor(false);
+                    if(i<users.size()-1){
+                        users.get(i+1).setPintor(true);
+                    }else{
+                        users.get(i).setPintor(false);
+                    }
+                    users.get(i).getPintor();
+                }else{
+                    users.get(i).getPintor();
+                }
+            }            
+        }
+        return flag;
+    }
+
     public int getPositionUser(String user){
         int pos = 0;
         for(int i = 0 ; i<users.size();i++){

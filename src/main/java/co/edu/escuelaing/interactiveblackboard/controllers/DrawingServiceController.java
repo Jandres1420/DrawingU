@@ -64,6 +64,10 @@ public class DrawingServiceController {
         return new ResponseEntity<>(DrawingU.getInstance().getRooms().numeroMinimoDePersonas(key), HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/cambioPintor")
+    public ResponseEntity<?> cambioPintor(@RequestParam(value = "pintor") String pintor) {
+        return new ResponseEntity<>(DrawingU.getInstance().getRooms().getBoard().changingPintor(pintor), HttpStatus.ACCEPTED);
+    }
     @GetMapping("/numeroPersonas")
     public ResponseEntity<?> numeroPersonas(@RequestParam(value = "key") String key) {
         return new ResponseEntity<>(DrawingU.getInstance().getRooms().numeroDePersonas(key), HttpStatus.ACCEPTED);

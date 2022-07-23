@@ -93,13 +93,14 @@ class BBCanvas extends React.Component {
     this.comunicationWS = new WSBBChannel(BBServiceURL(), (msg) => {
       var obj = JSON.parse(msg);
       console.log("On func call back ", msg);
-      this.drawPoint(obj.x, obj.y, obj.color,obj.erase);
+      this.drawPoint(obj.x, obj.y, obj.color, obj.erase);
     });
     this.myp5 = null;
-    this.state = { loadingState: "Loading Canvas ..." ,
-                  pintor : "No sabemos",
-                  puntaje : 0
-                };
+    this.state = {
+      loadingState: "Loading Canvas ...",
+      pintor: "No sabemos",
+      puntaje: 0,
+    };
     // Es el cambio echo en el tablero
     let wsreference = this.comunicationWS;
     this.sketch = function (p) {
@@ -109,13 +110,13 @@ class BBCanvas extends React.Component {
         p.createCanvas(700, 410);
       };
       p.draw = function () {
-        if(jugar){
+        if (jugar) {
           if (p.mouseIsPressed === true && pintor) {
-          erase = false;
-          p.fill(color);
-          p.ellipse(p.mouseX, p.mouseY, 10, 10);
-          wsreference.send(p.mouseX, p.mouseY, color,erase);
-         }
+            erase = false;
+            p.fill(color);
+            p.ellipse(p.mouseX, p.mouseY, 10, 10);
+            wsreference.send(p.mouseX, p.mouseY, color, erase);
+          }
           if (p.mouseIsPressed === false) {
             p.fill(255, 255, 255);
           }
@@ -126,19 +127,18 @@ class BBCanvas extends React.Component {
             flag = false;
           }
         }
-        
       };
     };
   }
-  drawPoint(x, y, color,erase) {
-    console.log("x " , x);
+  drawPoint(x, y, color, erase) {
+    console.log("x ", x);
     console.log("y ", y);
     console.log("color ", color);
     console.log("erase ", erase);
     this.myp5.fill(color);
     this.myp5.ellipse(x, y, 10, 10);
-    console.log("El booleano es : "+erase);
-    if(erase == "true"){
+    console.log("El booleano es : " + erase);
+    if (erase == "true") {
       console.log("ENTRA Y BORRAS " + erase);
       this.myp5.clear();
       erase = false;
@@ -152,15 +152,15 @@ class BBCanvas extends React.Component {
     this.myp5 = new p5(this.sketch, "container");
     this.setState({ loadingState: "Canvas Loaded" });
     this.getStatus(user);
+    this.cambiarPintor();
     color = "black";
     flag = false;
     erase = false;
-    this.timerID = setInterval(() => this.checkWord(), 25000); //Timer que da la palabra a dibujar 
+    this.timerID = setInterval(() => this.checkWord(), 60000); //Timer que da la palabra a dibujar
     this.settingUserToChat();
-    
   }
   checkWord() {
-    if(pintor){
+    if (pintor) {
       let file = "/getWord";
       fetch(file, { method: "GET" })
         .then((x) => x.json())
@@ -169,52 +169,48 @@ class BBCanvas extends React.Component {
         );
     }
   }
-  async numberOfPeople(){
-    let file = "/numeroPersonas?key=" +""+localStorage.getItem("key")+"";
-    numeroPer = await fetch(file, { method: "GET" })
-      .then((x) => x.json()) 
-    console.log("numero per" + numeroPer);
-    
-  }
-  async numberOfPoints(){
-    console.log("punticos");
-    let file = "/gettingPoints?name=" + "" + user + "";
-    points = await fetch(file, { method: "GET" })
-      .then((x) => x.json())
-    console.log("Estos son los puntos del usuario ",points);
-    this.setState({ pintor: points });
-    this.timerID = setInterval(() => this.numberOfPoints(),15000);
-  }
-  async canPlay(){
-    let file = "/numeroPersonasBool?key=" + "" + localStorage.getItem("key") + "";
-    jugar = await fetch(file, { method: "GET" })
-      .then((x) => x.json())
-    if(jugar){
-      alert("El numero de personas actual es suficiente para jugar")
-      this.timerID = setInterval(() => this.canPlay(), 10000000000);
-    }else{
-      alert("El numero de personas no es suficiente para jugar")
-      this.timerID= setInterval(() => this.canPlay(), 10000);
+  async numberOfPeople() {
+    if (jugar) {
+      let file = "/numeroPersonas?key=" + "" + localStorage.getItem("key") + "";
+      pintor = await fetch(file, { method: "GET" }).then((x) => x.json());
+      console.log("numero per" + numeroPer);
     }
   }
 
-  settingUserToChat(){
+  async cambiarPintor() {
+    if (jugar) {
+      let file = "/cambioPintor?pintor=" + "'" + localStorage.getItem("key") + "'";
+      numeroPer = await fetch(file, { method: "GET" }).then((x) => x.json());
+      console.log("numero per" + numeroPer);
+      this.timerID = setInterval(() => this.cambiarPintor(), 65000);
+    }
+  }
+  async numberOfPoints() {
+    console.log("punticos");
+    let file = "/gettingPoints?name=" + "" + user + "";
+    points = await fetch(file, { method: "GET" }).then((x) => x.json());
+    console.log("Estos son los puntos del usuario ", points);
+    this.setState({ puntaje: points });
+    this.timerID = setInterval(() => this.numberOfPoints(), 15000);
+  }
+  
+
+  settingUserToChat() {
     document.getElementById("name").value = localStorage.getItem("user"); // Pone al input el usuario actual registrado
     var pagebutton = document.getElementById("botonusuario");
     pagebutton.click();
-    
   }
   async getStatus(user) {
     let file = "/game?pintor=" + "'" + user + "'";
 
-    pintor = await fetch(file, { method: "GET" })
-      .then((x) => x.json())
-    if(pintor){
-      this.setState({pintor:"Eres pintor"});
-    }else{
-      this.setState({pintor:"No eres pintor"});
+    pintor = await fetch(file, { method: "GET" }).then((x) => x.json());
+    if (pintor) {
+      this.setState({ pintor: "Eres pintor" });
+    } else {
+      this.setState({ pintor: "No eres pintor" });
     }
     console.log("Asignando variable " + pintor);
+    this.timerID = setInterval(() => this.getStatus(), 65000);
   }
   render() {
     return (
@@ -264,10 +260,7 @@ class WSBBChannel {
   // Enviar puntos
   send(x, y, color,erase) {
     let msg =
-      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '", "erase": "' + erase + '"'+ "}";
-    console.log("sending: ", msg);
-    console.log("color ", color);
-    console.log("Borar ", erase)
+      '{ "x": ' + x + ', "y": ' + y + ', "color": "' + color + '", "erase": "' + erase + '"'+ "}"; 
     //enviar puntos por socket
     this.wsocket.send(msg);
   }
