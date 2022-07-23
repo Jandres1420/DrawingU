@@ -14,7 +14,14 @@ La Plataforma **DrawingU**, es un aplicativo en tiempo real donde se usara para 
 ### Canva
 [Presentación](https://www.canva.com/design/DAFDj5uGX70/jcFK2QuD5rNts7DY68ieaw/edit#)
 
+### Diagrama de clases 
+![](/img/diagrama%20de%20clases.png)
+
 ### Despliegue
 
+<<<<<<< HEAD
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://safe-crag-82536.herokuapp.com/)
 
+=======
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://hidden-escarpment-71995.herokuapp.com/)
+>>>>>>> da6c03e9f3d2cf88700348fd2726d0468cf50527
