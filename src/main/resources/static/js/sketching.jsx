@@ -99,7 +99,7 @@ class BBCanvas extends React.Component {
     this.state = {
       loadingState: "Loading Canvas ...",
       pintor: "No sabemos",
-      puntaje: 0,
+      puntaje: 0
     };
     // Es el cambio echo en el tablero
     let wsreference = this.comunicationWS;
@@ -152,11 +152,11 @@ class BBCanvas extends React.Component {
     this.myp5 = new p5(this.sketch, "container");
     this.setState({ loadingState: "Canvas Loaded" });
     this.getStatus(user);
-    this.cambiarPintor();
     color = "black";
     flag = false;
     erase = false;
-    this.timerID = setInterval(() => this.checkWord(), 60000); //Timer que da la palabra a dibujar
+    this.checkWord();
+    this.timerID = setInterval(() => this.checkWord(), 40000); //Timer que da la palabra a dibujar
     this.settingUserToChat();
   }
   checkWord() {
@@ -172,28 +172,28 @@ class BBCanvas extends React.Component {
   async numberOfPeople() {
     if (jugar) {
       let file = "/numeroPersonas?key=" + "" + localStorage.getItem("key") + "";
-      pintor = await fetch(file, { method: "GET" }).then((x) => x.json());
-      console.log("numero per" + numeroPer);
-    }
-  }
-
-  async cambiarPintor() {
-    if (jugar) {
-      let file = "/cambioPintor?pintor=" + "'" + localStorage.getItem("key") + "'";
       numeroPer = await fetch(file, { method: "GET" }).then((x) => x.json());
       console.log("numero per" + numeroPer);
-      this.timerID = setInterval(() => this.cambiarPintor(), 65000);
     }
   }
   async numberOfPoints() {
-    console.log("punticos");
     let file = "/gettingPoints?name=" + "" + user + "";
     points = await fetch(file, { method: "GET" }).then((x) => x.json());
-    console.log("Estos son los puntos del usuario ", points);
     this.setState({ puntaje: points });
     this.timerID = setInterval(() => this.numberOfPoints(), 15000);
   }
-  
+  async canPlay() {
+    let file =
+      "/numeroPersonasBool?key=" + "" + localStorage.getItem("key") + "";
+    jugar = await fetch(file, { method: "GET" }).then((x) => x.json());
+    if (jugar) {
+      this.timerID = setInterval(() => this.canPlay(), 100000000000000);
+      console.log("El numero de personas actual es suficiente para jugar");
+    } else {
+      alert("El numero de personas no es suficiente para jugar");
+      this.timerID = setInterval(() => this.canPlay(), 10000);
+    }
+  }
 
   settingUserToChat() {
     document.getElementById("name").value = localStorage.getItem("user"); // Pone al input el usuario actual registrado

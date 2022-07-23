@@ -39,6 +39,8 @@ public class Board {
     }
 
     public boolean changingPintor(String name){
+        System.out.println("ENTREEE");
+        System.out.println("NOMBRE PINTOR " + name);
         boolean flag = false;
         for(int i = 0 ; i<users.size();i++){
             if(users.get(i).getName().equals(name)){
@@ -65,7 +67,6 @@ public class Board {
                 pos = i;
             }
         }
-        System.out.println("Posicion en el tablero " + pos);
         return pos;
     }
 
